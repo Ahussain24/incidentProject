@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Incident Management System{% endblock %}
+
+
+{% block content %}
+<div class="container">
+  <!-- <h3>Incident Management System</h3> -->
+  <hr>
+  {% if incidents %}
+    <h3>Reported Incidents</h3>
+    <!-- Filtering options  -->
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Incident ID</th>
+          <th>Reporter Name</th>
+          <th>Incident Details</th>
+          <th>Reported Date/Time</th>
+          <th>Priority</th>
+          <th>Incident Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for incident in incidents %}
+        <tr>
+          <td>{{ incident.incident_id }}</td>
+          <td>{{ incident.reporter}}</td>
+          <td>{{ incident.incident_details }}</td>
+          <td>{{ incident.reported_date }}</td>
+          <td>{{ incident.priority }}</td>
+          <td>{{ incident.status }}</td>
+          {% if incident.status == 'Open' or incident.status == 'In progress' %}
+          <td><a href="{% url 'update_incident' %}?incident_id={{ incident.incident_id }}&reporter={{ incident.reporter }}" class="btn btn-primary">Edit</a>
+          </td>
+          {% else %}
+          <td></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No incidents found.</p>
+  {% endif %}
+</div>
+{% endblock %}
+    
+</body>
+</html>

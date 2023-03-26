@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Incident{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Update Incident</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="reporter_name">Reporter Name</label>
+        <input type="text" class="form-control" id="reporter_name" name="reporter_name" value="{{ incident.reporter}}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="incident_id">Incident ID</label>
+        <input type="text" class="form-control" id="incident_id" name="incident_id" value="{{ incident.incident_id }}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="incident_details">Incident Details</label>
+        <textarea class="form-control" id="incident_details" name="incident_details">{{ incident.incident_details }}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="reported_date">Reported Date and Time</label>
+        <input type="datetime-local" class="form-control" id="reported_date" name="reported_date" value="{{ incident.reported_date|default:"" }}" readonly>
+      </div>
+      <script>
+        var defaultDate = new Date().toISOString().slice(0,16);
+        document.getElementById("reported_date").defaultValue = defaultDate;
+      </script>
+      
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <select class="form-control" id="priority" name="priority">
+          <option value="High"{% if incident.priority == 'High' %} selected{% endif %}>High</option>
+          <option value="Medium"{% if incident.priority == 'Medium' %} selected{% endif %}>Medium</option>
+          <option value="Low"{% if incident.priority == 'Low' %} selected{% endif %}>Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="incident_status">Incident Status</label>
+        <select class="form-control" id="incident_status" name="incident_status">
+          <option value="Open"{% if incident.incident_status == 'Open' %} selected{% endif %}>Open</option>
+          <option value="In progress"{% if incident.incident_status == 'In progress' %} selected{% endif %}>In progress</option>
+          <option value="Closed"{% if incident.incident_status == 'Closed' %} selected{% endif %}>Closed</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <!-- {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %} -->
+</div>
+{% endblock %}
+    

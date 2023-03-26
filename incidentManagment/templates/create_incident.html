@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Incident{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>Create Incident</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="reporter_name">Reporter Name</label>
+        <input type="text" class="form-control" id="reporter_name" name="reporter_name" value="{{ user.username }}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="incident_details">Incident Details</label>
+        <textarea class="form-control" id="incident_details" name="incident_details"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="reported_date">Reported Date and Time</label>
+        <input type="datetime-local" class="form-control" id="reported_date" name="reported_date">
+      </div>
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <select class="form-control" id="priority" name="priority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="incident_status">Incident Status</label>
+        <select class="form-control" id="incident_status" name="incident_status">
+          <option value="Open">Open</option>
+          <option value="In Progress">In progress</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+  </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <div class="card-header">
+            <h2>Register</h2>
+          </div>
+          <div class="card-body">
+
+            {% if error_message %}
+            <div class="alert alert-danger text-center">
+              <ul class="m-0">
+                  <p>{{ error_message }}</p>
+              </ul>
+            </div>
+
+          {% endif %}
+
+            <form method="post">
+              {% csrf_token %}
+            
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password1" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="password2" class="form-control" required>
+              </div>
+
+              <div id="password-validation-msg"></div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    // Client-side password validation
+    document.getElementById('password').addEventListener('keyup', function () {
+      var password = this.value;
+      var confirm_password = document.getElementById('confirm-password').value;
+
+      if (password !== confirm_password) {
+        document.getElementById('password-validation-msg').innerHTML = '<p class="text-danger">Passwords do not match</p>';
+      } else {
+        document.getElementById('password-validation-msg').innerHTML = '';
+      }
+    });
+
+    document.getElementById('confirm-password').addEventListener('keyup', function () {
+      var password = document.getElementById('password').value;
+      var confirm_password = this.value;
+
+      if (password !== confirm_password) {
+        document.getElementById('password-validation-msg').innerHTML = '<p class="text-danger">Passwords do not match</p>';
+      } else {
+        document.getElementById('password-validation-msg').innerHTML = '';
+      }
+    });
+
+    console.log('register page loaded');
+  </script>
+{% endblock %}
